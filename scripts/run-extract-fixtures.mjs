@@ -79,6 +79,16 @@ async function extract(testCase) {
             "Canonical menu:",
             JSON.stringify(fixtures.canonical_menu),
             "",
+            "Required line_items skeleton. Return exactly these six IDs in this order, including unselected items:",
+            JSON.stringify(lineItemSkeleton()),
+            "",
+            "Hard requirements:",
+            "- Copy exact source_quote text when transcript evidence exists.",
+            "- Local/no-fee/no-travel-needed means travel selected false at price 200.",
+            "- Waived/no travel charge means travel selected true at price 0 with price_source quoted.",
+            "- Only add tbd_items for hedged maybe/probably/think-about-it language that appears in this transcript.",
+            "- Quoted extra-hour rates override the default price.",
+            "",
             "Transcript:",
             transcriptToText(testCase.transcript)
           ].join("\n")
@@ -104,6 +114,17 @@ async function extract(testCase) {
 
 function transcriptToText(transcript) {
   return transcript.map((turn) => `${turn.speaker}: ${turn.text}`).join("\n");
+}
+
+function lineItemSkeleton() {
+  return [
+    { id: "wedding_base", label: "Wedding package (base)", selected: false, price: 4599, quantity: 1, price_source: "default", source_quote: "" },
+    { id: "elopement", label: "Elopement package", selected: false, price: 1800, quantity: 1, price_source: "default", source_quote: "" },
+    { id: "engagement", label: "Engagement session", selected: false, price: 750, quantity: 1, price_source: "default", source_quote: "" },
+    { id: "second_shooter", label: "Second shooter", selected: false, price: 600, quantity: 1, price_source: "default", source_quote: "" },
+    { id: "extra_hour", label: "Extra coverage hour", selected: false, price: 350, quantity: 1, price_source: "default", source_quote: "" },
+    { id: "travel", label: "Travel fee", selected: false, price: 200, quantity: 1, price_source: "default", source_quote: "" }
+  ];
 }
 
 function stableStringify(value) {
