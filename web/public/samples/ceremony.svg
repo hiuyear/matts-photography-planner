@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-label="Sample wedding ceremony placeholder">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8f0e8"/>
+      <stop offset="50%" stop-color="#e8d4b8"/>
+      <stop offset="100%" stop-color="#d4b896"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c9a87c" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#8b7355" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#sky)"/>
+  <ellipse cx="400" cy="750" rx="500" ry="120" fill="url(#ground)"/>
+  <path d="M350 420 L400 280 L450 420 Z" fill="#fff8f0" opacity="0.9"/>
+  <rect x="385" y="420" width="30" height="80" fill="#fff8f0" opacity="0.85"/>
+  <circle cx="200" cy="350" r="60" fill="#fff5e6" opacity="0.4"/>
+  <circle cx="600" cy="380" r="45" fill="#fff5e6" opacity="0.35"/>
+  <text x="400" y="920" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#6b5344" opacity="0.7">Ceremony</text>
+</svg>

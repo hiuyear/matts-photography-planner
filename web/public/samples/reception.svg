@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-label="Sample reception placeholder">
+  <defs>
+    <linearGradient id="evening" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a2438"/>
+      <stop offset="40%" stop-color="#4a3f5c"/>
+      <stop offset="100%" stop-color="#6b5a72"/>
+    </linearGradient>
+    <radialGradient id="light" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#f5d89a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#f5d89a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#evening)"/>
+  <ellipse cx="400" cy="200" rx="300" ry="200" fill="url(#light)"/>
+  <circle cx="250" cy="450" r="6" fill="#f5d89a" opacity="0.8"/>
+  <circle cx="350" cy="420" r="5" fill="#f5d89a" opacity="0.7"/>
+  <circle cx="450" cy="440" r="6" fill="#f5d89a" opacity="0.75"/>
+  <circle cx="550" cy="430" r="5" fill="#f5d89a" opacity="0.7"/>
+  <ellipse cx="400" cy="650" rx="200" ry="40" fill="#f5e6c8" opacity="0.15"/>
+  <text x="400" y="920" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#e8dcc8" opacity="0.8">Reception</text>
+</svg>

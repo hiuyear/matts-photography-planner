@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { PageShell } from "@/components/PageShell";
+import { WeddingPhotoMockups } from "@/components/WeddingPhotoMockups";
 import { Button } from "@/components/ui/button";
 import { loadMenu } from "@/lib/menu-store";
 import {
@@ -40,24 +41,35 @@ function Index() {
   if (!hasMenu) {
     return (
       <PageShell>
-        <div className="glass-card mt-10 rounded-2xl p-8 text-center sm:p-12">
-          <div className="mb-3 text-3xl">🥂 ✨</div>
-          <h1 className="font-display text-4xl leading-tight sm:text-5xl">
-            Close the call.<br />
-            <span className="text-gold-gradient">Send the invoice.</span>
-          </h1>
-          <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground sm:text-base">
-            A field invoicing tool for wedding photographers. Your consultation call becomes
-            a draft invoice — reviewed and sent before you put the camera down.
-          </p>
-          <div className="mt-8 flex flex-col items-center gap-3">
-            <Link to="/onboarding/welcome">
-              <Button size="lg" className="btn-gold h-12 px-8 text-base">
-                Set up your menu →
-              </Button>
-            </Link>
-            <p className="text-xs text-muted-foreground">Takes under a minute.</p>
+        <div className="mt-6 space-y-6 sm:mt-10">
+          <div className="glass-card rounded-2xl p-8 sm:p-10">
+            <div className="grid items-center gap-8 sm:grid-cols-[1fr_auto] sm:gap-10">
+              <div className="text-center sm:text-left">
+                <div className="mb-3 text-3xl">🥂 ✨</div>
+                <h1 className="font-display text-4xl leading-tight sm:text-5xl">
+                  Close the call.<br />
+                  <span className="text-gold-gradient">Send the invoice.</span>
+                </h1>
+                <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground sm:mx-0 sm:text-base">
+                  A field invoicing tool for wedding photographers. Your consultation call becomes
+                  a draft invoice — reviewed and sent before you put the camera down.
+                </p>
+                <div className="mt-8 flex flex-col items-center gap-3 sm:items-start">
+                  <Link to="/onboarding/welcome">
+                    <Button size="lg" className="btn-gold h-12 px-8 text-base">
+                      Set up your menu →
+                    </Button>
+                  </Link>
+                  <p className="text-xs text-muted-foreground">Takes under a minute.</p>
+                </div>
+              </div>
+              <WeddingPhotoMockups layout="polaroid" count={2} className="hidden sm:flex" />
+            </div>
+            <WeddingPhotoMockups layout="strip" count={4} className="mt-6 sm:hidden" />
           </div>
+          <p className="text-center text-[11px] text-muted-foreground">
+            Sample work shown for preview — swap photos in <code className="text-[10px]">public/samples/</code>
+          </p>
         </div>
       </PageShell>
     );
@@ -87,8 +99,15 @@ function Index() {
             <div className="text-2xl">🥂</div>
             <div className="mt-2 font-display text-lg">No invoices yet</div>
             <p className="mt-1 text-sm text-muted-foreground">
-              Drop a transcript to create your first one.
+              Your next consultation call becomes an invoice here.
             </p>
+            <WeddingPhotoMockups layout="strip" count={3} className="mx-auto mt-5 max-w-sm justify-center" />
+            <Button
+              onClick={() => navigate({ to: "/invoice/new" })}
+              className="btn-gold mt-5 h-11 px-6"
+            >
+              New invoice
+            </Button>
           </div>
         ) : (
           <div className="mt-6 overflow-hidden rounded-xl border border-[color:var(--border)] bg-white/70">
