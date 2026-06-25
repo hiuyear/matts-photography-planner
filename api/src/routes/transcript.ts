@@ -1,15 +1,36 @@
 import { Router } from "express";
 import type { Transcript } from "../types/contracts.js";
+import { fetchFathomTranscript, listFathomMeetings } from "../services/fathom.js";
 import { fetchGranolaTranscript, listGranolaNotes } from "../services/granola.js";
 
 export const transcriptRouter = Router();
 
 /**
- * GET /transcript?source=granola          — list notes with summaries
- * GET /transcript?source=granola&note_id= — fetch one note as Contract B
+ * GET /transcript?source=fathom                        — list meetings with summaries
+ * GET /transcript?source=fathom&recording_id=          — fetch one as Contract B
+ * GET /transcript?source=granola                       — list Granola notes (legacy)
+ * GET /transcript?source=granola&note_id=              — fetch Granola note as Contract B
  */
 transcriptRouter.get("/", async (req, res) => {
   const source = req.query.source as string;
+
+  if (source === "fathom") {
+    const recordingId = req.query.recording_id as string | undefined;
+
+    try {
+      if (recordingId) {
+        const transcript = await fetchFathomTranscript(recordingId);
+        return res.json(transcript);
+      }
+
+      const meetings = await listFathomMeetings();
+      return res.json({ meetings });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Fathom fetch failed";
+      const status = message.includes("FATHOM_API_KEY") ? 503 : 502;
+      return res.status(status).json({ error: message });
+    }
+  }
 
   if (source === "granola") {
     const noteId = req.query.note_id as string | undefined;
@@ -30,7 +51,7 @@ transcriptRouter.get("/", async (req, res) => {
   }
 
   return res.status(400).json({
-    error: 'Invalid source. Use source=granola, or POST /transcript with source "paste".',
+    error: 'Invalid source. Use source=fathom, source=granola, or POST /transcript with source "paste".',
   });
 });
 

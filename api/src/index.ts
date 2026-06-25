@@ -22,8 +22,9 @@ app.use("/send-invoice", sendInvoiceRouter);
 app.listen(PORT, () => {
   console.log(`FieldInvoice API running on http://localhost:${PORT}`);
   console.log(`  GET  /health`);
-  console.log(`  GET  /transcript?source=granola`);
-  console.log(`  GET  /transcript?source=granola&note_id=<id>`);
+  console.log(`  GET  /transcript?source=fathom`);
+  console.log(`  GET  /transcript?source=fathom&recording_id=<id>`);
+  console.log(`  GET  /transcript?source=granola&note_id=<id>  (legacy)`);
   console.log(`  POST /transcript          (paste fallback)`);
   console.log(`  POST /extract             (Contract C)`);
   console.log(`  POST /send-invoice        (Contract D → email)`);

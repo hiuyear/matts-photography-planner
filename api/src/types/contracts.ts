@@ -15,7 +15,7 @@ export interface Menu {
 
 /** Contract B — transcript */
 export interface Transcript {
-  source: "granola" | "paste";
+  source: "granola" | "fathom" | "paste";
   text: string;
 }
 

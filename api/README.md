@@ -1,6 +1,6 @@
 # FieldInvoice API
 
-Backend for Person 1: Granola fetch, paste fallback, and invoice email.
+Backend for Person 1: Fathom transcript pull, paste fallback, and invoice email.
 
 Base URL (local): `http://localhost:3001`
 
@@ -8,7 +8,7 @@ Base URL (local): `http://localhost:3001`
 
 ```bash
 cd api
-cp .env.example .env   # add GRANOLA_API_KEY and RESEND_API_KEY
+cp .env.example .env   # add FATHOM_API_KEY and RESEND_API_KEY
 npm install
 npm run dev
 ```
@@ -18,20 +18,20 @@ npm run dev
 ### `GET /health`
 Health check.
 
-### `GET /transcript?source=granola`
-List Granola notes that have a summary (skips notes without one).
+### `GET /transcript?source=fathom`
+List Fathom meetings that have a summary.
 
 **Response:**
 ```json
-{ "notes": [{ "id": "...", "title": "...", "created_at": "...", "has_summary": true }] }
+{ "meetings": [{ "recording_id": 123, "title": "...", "created_at": "...", "has_summary": true }] }
 ```
 
-### `GET /transcript?source=granola&note_id=<id>`
-Fetch a note's transcript as **Contract B**.
+### `GET /transcript?source=fathom&recording_id=<id>`
+Fetch a meeting transcript as **Contract B**.
 
 **Response:**
 ```json
-{ "source": "granola", "text": "full transcript string" }
+{ "source": "fathom", "text": "Speaker: dialogue..." }
 ```
 
 ### `POST /transcript`
@@ -72,10 +72,11 @@ Without `RESEND_API_KEY`, logs the invoice to console and returns a mock id (saf
 | Variable | Required | Description |
 |----------|----------|-------------|
 | `PORT` | No | Default `3001` |
-| `GRANOLA_API_KEY` | For Granola | Bearer token for Granola Business plan |
+| `FATHOM_API_KEY` | For pull | Fathom API key (Settings → API Access) |
 | `RESEND_API_KEY` | For email | Resend API key |
-| `FROM_EMAIL` | No | Sender address (default: menu from_email) |
+| `FROM_EMAIL` | For email | Verified sender in Resend |
 | `EXTRACT_STUB` | No | `"false"` to use real LLM (Person 3) |
+| `GRANOLA_API_KEY` | Optional | Legacy Granola support if needed |
 
 ## Contracts
 
