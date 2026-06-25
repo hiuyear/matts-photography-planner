@@ -10,3 +10,13 @@ FieldInvoice has two main flows:
 - Invoice flow: paste or pull a transcript, extract a draft invoice, review TBDs, and send the invoice by email.
 
 Stripe and payment collection are out of scope for the initial build.
+
+## API
+
+Backend lives in [`api/`](api/). See [`api/README.md`](api/README.md) for endpoints and setup.
+
+```bash
+cd api && npm install && npm run dev
+```
+
+Endpoints: `GET /transcript`, `POST /transcript`, `POST /extract`, `POST /send-invoice`
