@@ -56,3 +56,9 @@ The extraction prompt lives in `lib/extraction/prompt.md`. The API calls it from
 Fixture runner: `LLM_API_KEY=... LLM_MODEL=... node scripts/run-extract-fixtures.mjs`
 
 See [`docs/llm-setup.md`](docs/llm-setup.md).
+
+## Frontend graphics
+
+Lovable-ready customization prompts: [`docs/frontend-graphics-prompts.md`](docs/frontend-graphics-prompts.md).
+
+Wedding photo sample mockups: `web/public/samples/` (served at `/samples/*`).

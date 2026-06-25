@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-label="Sample couple portrait placeholder">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#fce8c8"/>
+      <stop offset="60%" stop-color="#e8c99a"/>
+      <stop offset="100%" stop-color="#c4a574"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <ellipse cx="320" cy="380" rx="90" ry="110" fill="#f5e6d3" opacity="0.85"/>
+  <ellipse cx="480" cy="380" rx="90" ry="110" fill="#f0dcc8" opacity="0.85"/>
+  <path d="M280 520 Q400 620 520 520" stroke="#d4b896" stroke-width="3" fill="none" opacity="0.6"/>
+  <circle cx="400" cy="300" r="8" fill="#c9a87c" opacity="0.5"/>
+  <text x="400" y="920" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#6b5344" opacity="0.7">Couple portrait</text>
+</svg>

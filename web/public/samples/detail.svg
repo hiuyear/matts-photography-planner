@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-label="Sample wedding detail placeholder">
+  <defs>
+    <linearGradient id="linen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#faf6f0"/>
+      <stop offset="100%" stop-color="#ebe0d0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#linen)"/>
+  <circle cx="400" cy="450" r="120" fill="none" stroke="#c9a87c" stroke-width="4" opacity="0.7"/>
+  <circle cx="400" cy="450" r="90" fill="none" stroke="#d4b896" stroke-width="3" opacity="0.5"/>
+  <ellipse cx="400" cy="620" rx="80" ry="25" fill="#e8d4b8" opacity="0.4"/>
+  <circle cx="320" cy="350" r="15" fill="#d4a574" opacity="0.3"/>
+  <circle cx="480" cy="380" r="12" fill="#c9a87c" opacity="0.25"/>
+  <text x="400" y="920" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#6b5344" opacity="0.7">Detail</text>
+</svg>
