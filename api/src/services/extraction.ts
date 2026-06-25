@@ -28,19 +28,32 @@ async function loadPromptFiles(): Promise<{ systemPrompt: string; schema: object
   return cachedPrompt;
 }
 
-function getLlmConfig(): { apiKey: string; model: string; apiUrl: string } | null {
-  const apiKey = process.env.LLM_API_KEY ?? process.env.LOVABLE_API_KEY;
-  const model = process.env.LLM_MODEL ?? (process.env.LOVABLE_API_KEY ? "google/gemini-2.5-flash" : undefined);
+function getLlmConfig(): { apiKey: string; model: string; apiUrl: string } {
+  if (process.env.LOVABLE_API_KEY) {
+    return {
+      apiKey: process.env.LOVABLE_API_KEY,
+      model: process.env.LLM_MODEL ?? "google/gemini-2.5-flash",
+      apiUrl: process.env.LLM_API_URL ?? "https://ai.gateway.lovable.dev/v1/chat/completions",
+    };
+  }
 
-  if (!apiKey || !model) return null;
+  if (process.env.LLM_API_KEY) {
+    return {
+      apiKey: process.env.LLM_API_KEY,
+      model: process.env.LLM_MODEL ?? "gpt-4o-mini",
+      apiUrl: process.env.LLM_API_URL ?? "https://api.openai.com/v1/chat/completions",
+    };
+  }
 
-  const apiUrl =
-    process.env.LLM_API_URL ??
-    (process.env.LOVABLE_API_KEY
-      ? "https://ai.gateway.lovable.dev/v1/chat/completions"
-      : "https://api.openai.com/v1/chat/completions");
+  return {
+    apiKey: process.env.LLM_API_KEY ?? "ollama",
+    model: process.env.LLM_MODEL ?? "llama3.1:8b",
+    apiUrl: process.env.LLM_API_URL ?? "http://localhost:11434/v1/chat/completions",
+  };
+}
 
-  return { apiKey, model, apiUrl };
+function isOllamaEndpoint(apiUrl: string): boolean {
+  return apiUrl.includes("11434") || apiUrl.includes("ollama");
 }
 
 function stripCodeFences(content: string): string {
@@ -61,6 +74,9 @@ async function callLlm(
     body: JSON.stringify({
       model: config.model,
       temperature: 0,
+      ...(isOllamaEndpoint(config.apiUrl)
+        ? { options: { num_ctx: Number(process.env.LLM_NUM_CTX) || 4096 } }
+        : {}),
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: systemPrompt },
@@ -117,14 +133,11 @@ function normalizeExtraction(raw: ExtractionResult, menu: Menu): ExtractionResul
 }
 
 export function hasLlmConfigured(): boolean {
-  return getLlmConfig() !== null;
+  return process.env.EXTRACT_STUB !== "true";
 }
 
 export async function runExtraction(menu: Menu, transcript: string): Promise<ExtractionResult> {
   const config = getLlmConfig();
-  if (!config) {
-    throw new Error("LLM not configured — set LLM_API_KEY + LLM_MODEL (or LOVABLE_API_KEY)");
-  }
 
   const { systemPrompt, schema } = await loadPromptFiles();
 

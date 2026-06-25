@@ -1,6 +1,7 @@
 import { Router } from "express";
 import type { Menu, Transcript } from "../types/contracts.js";
 import { SAMPLE_EXTRACTION } from "../mocks/sample-extraction.js";
+import { runFallbackExtraction } from "../services/extraction-fallback.js";
 import { hasLlmConfigured, runExtraction } from "../services/extraction.js";
 
 export const extractRouter = Router();
@@ -12,7 +13,8 @@ interface ExtractRequest {
 
 /**
  * POST /extract — menu + transcript in, Contract C out.
- * Uses lib/extraction/prompt.md when LLM is configured; falls back to mock otherwise.
+ * Uses lib/extraction/prompt.md via OpenAI-compatible LLM (Ollama by default).
+ * Set EXTRACT_STUB=true for mock output; LLM failures fall back to rule-based extraction.
  */
 extractRouter.post("/", async (req, res) => {
   const body = req.body as ExtractRequest;
@@ -39,7 +41,7 @@ extractRouter.post("/", async (req, res) => {
     const result = await runExtraction(body.menu, transcriptText.trim());
     return res.json(result);
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Extraction failed";
-    return res.status(500).json({ error: message });
+    console.warn("[extract] LLM failed; using rule-based fallback", err);
+    return res.json(runFallbackExtraction(body.menu, transcriptText.trim()));
   }
 });
