@@ -11,18 +11,48 @@ FieldInvoice has two main flows:
 
 Stripe and payment collection are out of scope for the initial build.
 
-## API
+## Run locally
 
-Backend lives in [`api/`](api/). See [`api/README.md`](api/README.md) for endpoints and setup.
+Terminal 1 — API (source of truth):
 
 ```bash
-cd api && npm install && npm run dev
+cd api
+cp .env.example .env   # add FATHOM_API_KEY + LLM_API_KEY (or LOVABLE_API_KEY)
+npm install
+npm run dev            # http://localhost:3001
 ```
 
-Endpoints: `GET /transcript`, `POST /transcript`, `POST /extract`, `POST /send-invoice`
+Terminal 2 — Frontend:
+
+```bash
+cd web
+npm install
+npm run dev            # proxies /api → localhost:3001
+```
+
+## Architecture
+
+```
+React (web/)  ──/api proxy──▶  Express API (api/)  ──▶  Fathom / LLM / email
+```
+
+| Layer | Path | Role |
+|-------|------|------|
+| Frontend | `web/` | Onboarding + invoice UI |
+| API | `api/` | Transcript pull, `/extract`, `/send-invoice` |
+| LLM prompt | `lib/extraction/` | Shared extraction rules + schema |
+| Fixtures | `tests/extract-fixtures.json` | LLM eval suite |
+
+## API endpoints
+
+`GET /transcript`, `POST /transcript`, `POST /extract`, `POST /send-invoice`
+
+See [`api/README.md`](api/README.md) for details.
 
 ## LLM Inference
 
-The transcript extraction contract lives in `docs/inference-contract.md`. The labeled `/extract` inference fixtures live in `tests/extract-fixtures.json`.
+The extraction prompt lives in `lib/extraction/prompt.md`. The API calls it from `POST /extract`.
 
-LLM setup instructions live in `docs/llm-setup.md`. The extractor prompt and schema live in `lib/extraction/`.
+Fixture runner: `LLM_API_KEY=... LLM_MODEL=... node scripts/run-extract-fixtures.mjs`
+
+See [`docs/llm-setup.md`](docs/llm-setup.md).

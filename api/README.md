@@ -53,7 +53,7 @@ LLM extraction — menu + transcript in, **Contract C** out.
 }
 ```
 
-Returns `SAMPLE_EXTRACTION` mock while `EXTRACT_STUB` is not `"false"`. Person 3 wires the real LLM in `src/routes/extract.ts`.
+Returns mock Contract C when `EXTRACT_STUB=true` or no LLM key is configured. Otherwise uses `lib/extraction/prompt.md` with `LLM_API_KEY` + `LLM_MODEL` (or `LOVABLE_API_KEY`).
 
 ### `POST /send-invoice`
 Render and deliver invoice from **Contract D**. **No DNS or email API required by default.**

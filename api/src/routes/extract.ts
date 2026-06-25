@@ -1,6 +1,7 @@
 import { Router } from "express";
-import type { ExtractionResult, Menu, Transcript } from "../types/contracts.js";
+import type { Menu, Transcript } from "../types/contracts.js";
 import { SAMPLE_EXTRACTION } from "../mocks/sample-extraction.js";
+import { hasLlmConfigured, runExtraction } from "../services/extraction.js";
 
 export const extractRouter = Router();
 
@@ -10,11 +11,8 @@ interface ExtractRequest {
 }
 
 /**
- * POST /extract — LLM extraction (Contract C)
- *
- * Person 3 owns the real LLM logic. This endpoint validates input and
- * returns SAMPLE_EXTRACTION when EXTRACT_STUB=true (default until LLM is wired).
- * Set EXTRACT_STUB=false and implement runExtraction() to go live.
+ * POST /extract — menu + transcript in, Contract C out.
+ * Uses lib/extraction/prompt.md when LLM is configured; falls back to mock otherwise.
  */
 extractRouter.post("/", async (req, res) => {
   const body = req.body as ExtractRequest;
@@ -30,23 +28,18 @@ extractRouter.post("/", async (req, res) => {
     return res.status(400).json({ error: "transcript text is required" });
   }
 
-  const useStub = process.env.EXTRACT_STUB !== "false";
+  const forceStub = process.env.EXTRACT_STUB === "true";
+  const useLlm = !forceStub && hasLlmConfigured();
 
-  if (useStub) {
+  if (!useLlm) {
     return res.json(SAMPLE_EXTRACTION);
   }
 
-  // Person 3: replace this with real LLM call
   try {
-    const result = await runExtraction(body.menu, transcriptText);
+    const result = await runExtraction(body.menu, transcriptText.trim());
     return res.json(result);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Extraction failed";
     return res.status(500).json({ error: message });
   }
 });
-
-/** Placeholder for Person 3's LLM implementation */
-async function runExtraction(_menu: Menu, _transcript: string): Promise<ExtractionResult> {
-  throw new Error("LLM extraction not implemented — set EXTRACT_STUB=true or wire Person 3's code");
-}
