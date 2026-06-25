@@ -1,11 +1,14 @@
 import { Router } from "express";
 import type { InvoicePayload } from "../types/contracts.js";
-import { sendInvoiceEmail } from "../services/email.js";
+import { deliverInvoice } from "../services/email.js";
 
 export const sendInvoiceRouter = Router();
 
 /**
- * POST /send-invoice — take Contract D, render HTML, send email
+ * POST /send-invoice — take Contract D, render invoice, deliver
+ *
+ * Default (EMAIL_MODE=preview): no DNS or email API needed.
+ * Returns preview_html + mailto_url for the sent screen / native Mail app.
  */
 sendInvoiceRouter.post("/", async (req, res) => {
   const invoice = req.body as InvoicePayload;
@@ -16,8 +19,16 @@ sendInvoiceRouter.post("/", async (req, res) => {
   }
 
   try {
-    const result = await sendInvoiceEmail(invoice);
-    return res.json({ ok: true, message_id: result.id });
+    const result = await deliverInvoice(invoice);
+    return res.json({
+      ok: true,
+      delivery: result.delivery,
+      message_id: result.message_id,
+      preview_html: result.preview_html,
+      text_body: result.text_body,
+      mailto_url: result.mailto_url,
+      subject: result.subject,
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Send failed";
     return res.status(500).json({ error: message });

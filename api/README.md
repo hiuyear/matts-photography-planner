@@ -56,16 +56,26 @@ LLM extraction — menu + transcript in, **Contract C** out.
 Returns `SAMPLE_EXTRACTION` mock while `EXTRACT_STUB` is not `"false"`. Person 3 wires the real LLM in `src/routes/extract.ts`.
 
 ### `POST /send-invoice`
-Send invoice email from **Contract D**.
+Render and deliver invoice from **Contract D**. **No DNS or email API required by default.**
 
 **Body:** full Contract D payload.
 
 **Response:**
 ```json
-{ "ok": true, "message_id": "..." }
+{
+  "ok": true,
+  "delivery": "preview",
+  "message_id": "preview-...",
+  "preview_html": "<html>...</html>",
+  "text_body": "plain text invoice",
+  "mailto_url": "mailto:client@example.com?subject=...&body=...",
+  "subject": "Invoice from Nix Hernandez Photography"
+}
 ```
 
-Without `RESEND_API_KEY`, logs the invoice to console and returns a mock id (safe for local dev).
+**Demo path (default):** Person 2 shows `preview_html` on `/invoice/sent`, or opens `mailto_url` so Matt's phone Mail app sends it — no Resend DNS needed.
+
+**Optional real send:** set `EMAIL_MODE=smtp` with Gmail app password, or `EMAIL_MODE=resend` once domain is verified. Falls back to preview if send fails.
 
 ## Environment variables
 
@@ -73,8 +83,10 @@ Without `RESEND_API_KEY`, logs the invoice to console and returns a mock id (saf
 |----------|----------|-------------|
 | `PORT` | No | Default `3001` |
 | `FATHOM_API_KEY` | For pull | Fathom API key (Settings → API Access) |
-| `RESEND_API_KEY` | For email | Resend API key |
-| `FROM_EMAIL` | For email | Verified sender in Resend |
+| `EMAIL_MODE` | No | `preview` (default), `smtp`, or `resend` |
+| `SMTP_*` | For smtp mode | Gmail/etc — no domain DNS needed |
+| `RESEND_API_KEY` | For resend mode | Only if domain verified in Resend |
+| `FROM_EMAIL` | For resend mode | Verified sender address |
 | `EXTRACT_STUB` | No | `"false"` to use real LLM (Person 3) |
 | `GRANOLA_API_KEY` | Optional | Legacy Granola support if needed |
 
