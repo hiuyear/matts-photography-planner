@@ -11,6 +11,16 @@ FieldInvoice has two main flows:
 
 Stripe and payment collection are out of scope for the initial build.
 
+## API
+
+Backend lives in [`api/`](api/). See [`api/README.md`](api/README.md) for endpoints and setup.
+
+```bash
+cd api && npm install && npm run dev
+```
+
+Endpoints: `GET /transcript`, `POST /transcript`, `POST /extract`, `POST /send-invoice`
+
 ## LLM Inference
 
 The transcript extraction contract lives in `docs/inference-contract.md`. The labeled `/extract` inference fixtures live in `tests/extract-fixtures.json`.
