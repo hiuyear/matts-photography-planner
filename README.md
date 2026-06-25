@@ -10,3 +10,9 @@ FieldInvoice has two main flows:
 - Invoice flow: paste or pull a transcript, extract a draft invoice, review TBDs, and send the invoice by email.
 
 Stripe and payment collection are out of scope for the initial build.
+
+## LLM Inference
+
+The transcript extraction contract lives in `docs/inference-contract.md`. The labeled `/extract` inference fixtures live in `tests/extract-fixtures.json`.
+
+LLM setup instructions live in `docs/llm-setup.md`. The extractor prompt and schema live in `lib/extraction/`.

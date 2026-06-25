@@ -1,0 +1,178 @@
+{
+  "canonical_menu": [
+    { "id": "wedding_base", "label": "Wedding package (base)", "price": 4599 },
+    { "id": "elopement", "label": "Elopement package", "price": 1800 },
+    { "id": "engagement", "label": "Engagement session", "price": 750 },
+    { "id": "second_shooter", "label": "Second shooter", "price": 600 },
+    { "id": "extra_hour", "label": "Extra coverage hour", "price": 350, "unit": "hour" },
+    { "id": "travel", "label": "Travel fee", "price": 200 }
+  ],
+  "tests": [
+    {
+      "id": "minimal-elopement",
+      "name": "Test 1 - Minimal elopement",
+      "targets": [
+        "simple path",
+        "correct package disambiguation",
+        "everything else off",
+        "no deposit mentioned",
+        "empty TBD"
+      ],
+      "transcript": [
+        { "speaker": "Matt", "text": "Hi Jordan, thanks for reaching out. So you're looking at the elopement, just the two of you?" },
+        { "speaker": "Jordan", "text": "Yeah, it's just us, a small thing up in the mountains. We just want the elopement package, nothing fancy." },
+        { "speaker": "Matt", "text": "Perfect, that's the elopement package. Do you want an engagement session beforehand, or a second shooter on the day?" },
+        { "speaker": "Jordan", "text": "No, neither. Just the elopement coverage is all we need." },
+        { "speaker": "Matt", "text": "Easy. Any travel concerns, is the location far out?" },
+        { "speaker": "Jordan", "text": "It's close, no travel needed." },
+        { "speaker": "Matt", "text": "Great. I'll send the invoice over. What's the best email?" },
+        { "speaker": "Jordan", "text": "jordan.lee@outlook.com." },
+        { "speaker": "Matt", "text": "Thanks Jordan, talk soon." }
+      ],
+      "expected": {
+        "client": { "name": "Jordan Lee", "email": "jordan.lee@outlook.com" },
+        "line_items": [
+          { "id": "wedding_base", "label": "Wedding package (base)", "selected": false, "price": 4599, "quantity": 1, "price_source": "default", "source_quote": "" },
+          { "id": "elopement", "label": "Elopement package", "selected": true, "price": 1800, "quantity": 1, "price_source": "default", "source_quote": "We just want the elopement package, nothing fancy." },
+          { "id": "engagement", "label": "Engagement session", "selected": false, "price": 750, "quantity": 1, "price_source": "default", "source_quote": "No, neither." },
+          { "id": "second_shooter", "label": "Second shooter", "selected": false, "price": 600, "quantity": 1, "price_source": "default", "source_quote": "No, neither." },
+          { "id": "extra_hour", "label": "Extra coverage hour", "selected": false, "price": 350, "quantity": 1, "price_source": "default", "source_quote": "" },
+          { "id": "travel", "label": "Travel fee", "selected": false, "price": 200, "quantity": 1, "price_source": "default", "source_quote": "It's close, no travel needed." }
+        ],
+        "tbd_items": [],
+        "deposit_paid": null,
+        "summary": "Elopement package only, no add-ons, no deposit mentioned."
+      }
+    },
+    {
+      "id": "full-selection-with-tbds",
+      "name": "Test 2 - Full selection with multiple TBDs",
+      "targets": [
+        "many items selected",
+        "two off-menu TBDs",
+        "extra hours quantity 3",
+        "travel selected at default"
+      ],
+      "transcript": [
+        { "speaker": "Matt", "text": "Hey Priya, big day coming up. Let's lock in the details. Full wedding package to start?" },
+        { "speaker": "Priya", "text": "Yes, the full wedding package for sure." },
+        { "speaker": "Matt", "text": "Engagement session?" },
+        { "speaker": "Priya", "text": "Yes please, we'd love one." },
+        { "speaker": "Matt", "text": "Second shooter to cover both sides getting ready?" },
+        { "speaker": "Priya", "text": "Yes, definitely want the second shooter." },
+        { "speaker": "Matt", "text": "The venue is out past the county line, so there's a travel fee on this one, the standard two hundred." },
+        { "speaker": "Priya", "text": "That's fine, add the travel." },
+        { "speaker": "Matt", "text": "How's the timeline, extra hours?" },
+        { "speaker": "Priya", "text": "The party goes late. Three extra hours, please." },
+        { "speaker": "Matt", "text": "Three extra hours, got it. Anything else on your wishlist?" },
+        { "speaker": "Priya", "text": "Two things. We want a printed photo album afterward, like a hardcover one. And my mom wants a separate family portrait session the day before." },
+        { "speaker": "Matt", "text": "Both doable. The album depends on the size and page count, so let me price that separately and get back to you. The family portrait session isn't a standard package for me, I'll work out a fair rate and include it. I'll confirm both costs on the invoice." },
+        { "speaker": "Priya", "text": "Sounds great." },
+        { "speaker": "Matt", "text": "Best email for you?" },
+        { "speaker": "Priya", "text": "priya.nair@gmail.com." },
+        { "speaker": "Matt", "text": "Perfect, thanks Priya." }
+      ],
+      "expected": {
+        "client": { "name": "Priya Nair", "email": "priya.nair@gmail.com" },
+        "line_items": [
+          { "id": "wedding_base", "label": "Wedding package (base)", "selected": true, "price": 4599, "quantity": 1, "price_source": "default", "source_quote": "Yes, the full wedding package for sure." },
+          { "id": "elopement", "label": "Elopement package", "selected": false, "price": 1800, "quantity": 1, "price_source": "default", "source_quote": "" },
+          { "id": "engagement", "label": "Engagement session", "selected": true, "price": 750, "quantity": 1, "price_source": "default", "source_quote": "Yes please, we'd love one." },
+          { "id": "second_shooter", "label": "Second shooter", "selected": true, "price": 600, "quantity": 1, "price_source": "default", "source_quote": "Yes, definitely want the second shooter." },
+          { "id": "extra_hour", "label": "Extra coverage hour", "selected": true, "price": 350, "quantity": 3, "price_source": "default", "source_quote": "Three extra hours, please." },
+          { "id": "travel", "label": "Travel fee", "selected": true, "price": 200, "quantity": 1, "price_source": "default", "source_quote": "That's fine, add the travel." }
+        ],
+        "tbd_items": [
+          { "label": "Printed photo album", "note": "Off-menu. Price depends on size and page count.", "source_quote": "let me price that separately and get back to you" },
+          { "label": "Family portrait session", "note": "Off-menu, non-standard package. Photographer to set a rate.", "source_quote": "I'll work out a fair rate and include it" }
+        ],
+        "deposit_paid": null,
+        "summary": "Full wedding package, engagement, second shooter, travel, and 3 extra hours; album and family portrait session pending quotes; no deposit mentioned."
+      }
+    },
+    {
+      "id": "non-committal-client",
+      "name": "Test 3 - Non-committal client",
+      "targets": [
+        "hedged language must not be marked selected",
+        "maybe and checking with partner go to TBD",
+        "clean yes still lands"
+      ],
+      "transcript": [
+        { "speaker": "Matt", "text": "Hi Tom, let's go through what you're thinking. The full wedding package, are we set on that?" },
+        { "speaker": "Tom", "text": "Yes, the wedding package, that part we're sure about." },
+        { "speaker": "Matt", "text": "Engagement session?" },
+        { "speaker": "Tom", "text": "Hmm, maybe. I need to check with my partner on that one. Can we leave it for now?" },
+        { "speaker": "Matt", "text": "Of course. Second shooter?" },
+        { "speaker": "Tom", "text": "I'm not sure we need it. Let me think about it and get back to you." },
+        { "speaker": "Matt", "text": "No problem. Extra hours past the standard coverage?" },
+        { "speaker": "Tom", "text": "Probably, but I don't know the timeline yet. We're still working out the reception." },
+        { "speaker": "Matt", "text": "Okay, we can finalize hours closer to the date. Travel, the venue is local so no fee there." },
+        { "speaker": "Tom", "text": "Right, it's in the city." },
+        { "speaker": "Matt", "text": "Great, I'll send what we've confirmed and we can add the rest later. Email?" },
+        { "speaker": "Tom", "text": "tom.becker@gmail.com." },
+        { "speaker": "Matt", "text": "Thanks Tom." }
+      ],
+      "expected": {
+        "client": { "name": "Tom Becker", "email": "tom.becker@gmail.com" },
+        "line_items": [
+          { "id": "wedding_base", "label": "Wedding package (base)", "selected": true, "price": 4599, "quantity": 1, "price_source": "default", "source_quote": "Yes, the wedding package, that part we're sure about." },
+          { "id": "elopement", "label": "Elopement package", "selected": false, "price": 1800, "quantity": 1, "price_source": "default", "source_quote": "" },
+          { "id": "engagement", "label": "Engagement session", "selected": false, "price": 750, "quantity": 1, "price_source": "default", "source_quote": "maybe. I need to check with my partner on that one." },
+          { "id": "second_shooter", "label": "Second shooter", "selected": false, "price": 600, "quantity": 1, "price_source": "default", "source_quote": "Let me think about it and get back to you." },
+          { "id": "extra_hour", "label": "Extra coverage hour", "selected": false, "price": 350, "quantity": 1, "price_source": "default", "source_quote": "Probably, but I don't know the timeline yet." },
+          { "id": "travel", "label": "Travel fee", "selected": false, "price": 200, "quantity": 1, "price_source": "default", "source_quote": "it's in the city." }
+        ],
+        "tbd_items": [
+          { "label": "Engagement session", "note": "Client non-committal, checking with partner.", "source_quote": "maybe. I need to check with my partner on that one." },
+          { "label": "Second shooter", "note": "Client undecided, will get back.", "source_quote": "Let me think about it and get back to you." },
+          { "label": "Extra coverage hours", "note": "Likely but timeline not set. Confirm hours later.", "source_quote": "Probably, but I don't know the timeline yet." }
+        ],
+        "deposit_paid": null,
+        "summary": "Wedding package confirmed; engagement, second shooter, and extra hours all undecided and pending; no travel; no deposit mentioned."
+      }
+    },
+    {
+      "id": "mind-changes-and-waived-fee",
+      "name": "Test 4 - Mind changes and waived fee",
+      "targets": [
+        "honor final decision after retraction",
+        "waived fee quoted to 0",
+        "quoted price override with quantity"
+      ],
+      "transcript": [
+        { "speaker": "Matt", "text": "Hey Alex, let's sort the details. Full wedding package?" },
+        { "speaker": "Alex", "text": "Yes, the wedding package." },
+        { "speaker": "Matt", "text": "Second shooter?" },
+        { "speaker": "Alex", "text": "Yeah, let's add the second shooter." },
+        { "speaker": "Matt", "text": "Done. Engagement session?" },
+        { "speaker": "Alex", "text": "Actually, wait, on the second shooter, let me pull that back. We talked it over and we don't want it after all. Just the main coverage." },
+        { "speaker": "Matt", "text": "No problem, I'll take the second shooter off. Engagement session then?" },
+        { "speaker": "Alex", "text": "Yes, we want the engagement session." },
+        { "speaker": "Matt", "text": "Great. The venue is a bit out of town, normally I'd add a travel fee, but since you booked the full package I'll waive it. No travel charge." },
+        { "speaker": "Alex", "text": "Oh, that's generous, thank you." },
+        { "speaker": "Matt", "text": "And on extra hours, you wanted some, right?" },
+        { "speaker": "Alex", "text": "Yes, two extra hours. We discussed a rate?" },
+        { "speaker": "Matt", "text": "Right, I said I'd do those at three twenty five an hour for you. Two hours at three twenty five." },
+        { "speaker": "Alex", "text": "Perfect." },
+        { "speaker": "Matt", "text": "I'll send the invoice. Email?" },
+        { "speaker": "Alex", "text": "alex.rivera@gmail.com." },
+        { "speaker": "Matt", "text": "Thanks Alex." }
+      ],
+      "expected": {
+        "client": { "name": "Alex Rivera", "email": "alex.rivera@gmail.com" },
+        "line_items": [
+          { "id": "wedding_base", "label": "Wedding package (base)", "selected": true, "price": 4599, "quantity": 1, "price_source": "default", "source_quote": "Yes, the wedding package." },
+          { "id": "elopement", "label": "Elopement package", "selected": false, "price": 1800, "quantity": 1, "price_source": "default", "source_quote": "" },
+          { "id": "engagement", "label": "Engagement session", "selected": true, "price": 750, "quantity": 1, "price_source": "default", "source_quote": "Yes, we want the engagement session." },
+          { "id": "second_shooter", "label": "Second shooter", "selected": false, "price": 600, "quantity": 1, "price_source": "default", "source_quote": "let me pull that back. We talked it over and we don't want it after all." },
+          { "id": "extra_hour", "label": "Extra coverage hour", "selected": true, "price": 325, "quantity": 2, "price_source": "quoted", "source_quote": "I'd do those at three twenty five an hour for you. Two hours at three twenty five." },
+          { "id": "travel", "label": "Travel fee", "selected": true, "price": 0, "quantity": 1, "price_source": "quoted", "source_quote": "since you booked the full package I'll waive it. No travel charge." }
+        ],
+        "tbd_items": [],
+        "deposit_paid": null,
+        "summary": "Full wedding package, engagement, and 2 extra hours at $325/hr; second shooter retracted; travel fee waived to $0; no deposit mentioned."
+      }
+    }
+  ]
+}
