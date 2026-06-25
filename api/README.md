@@ -53,7 +53,9 @@ LLM extraction — menu + transcript in, **Contract C** out.
 }
 ```
 
-Returns mock Contract C when `EXTRACT_STUB=true` or no LLM key is configured. Otherwise uses `lib/extraction/prompt.md` with `LLM_API_KEY` + `LLM_MODEL` (or `LOVABLE_API_KEY`).
+Returns mock Contract C when `EXTRACT_STUB=true`. Otherwise calls an OpenAI-compatible LLM using `lib/extraction/prompt.md` — **Ollama on localhost is the default** when no API key is set. If the LLM call fails, a rule-based fallback extractor returns Contract C instead of a 500.
+
+**LLM options:** local Ollama (default), `LLM_API_KEY` + `LLM_MODEL` for OpenAI-compatible APIs, or `LOVABLE_API_KEY` for the Lovable gateway.
 
 ### `POST /send-invoice`
 Render and deliver invoice from **Contract D**. **No DNS or email API required by default.**
@@ -83,11 +85,16 @@ Render and deliver invoice from **Contract D**. **No DNS or email API required b
 |----------|----------|-------------|
 | `PORT` | No | Default `3001` |
 | `FATHOM_API_KEY` | For pull | Fathom API key (Settings → API Access) |
+| `LLM_API_URL` | No | Default `http://localhost:11434/v1/chat/completions` (Ollama) |
+| `LLM_MODEL` | No | Default `llama3.1:8b` |
+| `LLM_API_KEY` | For cloud LLM | OpenAI-compatible key; omit for local Ollama |
+| `LLM_NUM_CTX` | No | Ollama context window; default `4096` |
+| `LOVABLE_API_KEY` | Optional | Lovable AI gateway instead of direct LLM |
+| `EXTRACT_STUB` | No | `"true"` to force mock extraction |
 | `EMAIL_MODE` | No | `preview` (default), `smtp`, or `resend` |
 | `SMTP_*` | For smtp mode | Gmail/etc — no domain DNS needed |
 | `RESEND_API_KEY` | For resend mode | Only if domain verified in Resend |
 | `FROM_EMAIL` | For resend mode | Verified sender address |
-| `EXTRACT_STUB` | No | `"false"` to use real LLM (Person 3) |
 | `GRANOLA_API_KEY` | Optional | Legacy Granola support if needed |
 
 ## Contracts

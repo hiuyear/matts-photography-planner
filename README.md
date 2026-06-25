@@ -17,7 +17,7 @@ Terminal 1 — API (source of truth):
 
 ```bash
 cd api
-cp .env.example .env   # add FATHOM_API_KEY + LLM_API_KEY (or LOVABLE_API_KEY)
+cp .env.example .env   # FATHOM_API_KEY optional; Ollama works out of the box
 npm install
 npm run dev            # http://localhost:3001
 ```
@@ -51,8 +51,9 @@ See [`api/README.md`](api/README.md) for details.
 
 ## LLM Inference
 
-The extraction prompt lives in `lib/extraction/prompt.md`. The API calls it from `POST /extract`.
+The extraction prompt lives in `lib/extraction/prompt.md`. The API calls it from `POST /extract` via Ollama by default (or any OpenAI-compatible endpoint).
 
-Fixture runner: `LLM_API_KEY=... LLM_MODEL=... node scripts/run-extract-fixtures.mjs`
+Fixture runner: `LLM_API_KEY=... LLM_MODEL=... node scripts/run-extract-fixtures.mjs`  
+Local Ollama: `LLM_API_URL=http://localhost:11434/v1/chat/completions LLM_MODEL=llama3.1:8b LLM_API_KEY=ollama node scripts/run-extract-fixtures.mjs`
 
 See [`docs/llm-setup.md`](docs/llm-setup.md).
